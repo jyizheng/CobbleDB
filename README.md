@@ -18,6 +18,9 @@ Good performance
 Verified features
 - Take advantage of the rapid advacement of verification techniques to implement provable features (crash consitency, liveness, etc) 
 
+Minimize human-labor
+- Try program systheis technique as much as possible
+
 # Reference
 
 [1] Using lightweight formal methods to validate a key-value storage node in Amazon S3
