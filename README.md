@@ -15,8 +15,13 @@ Good performance
 - Take range query performance in conderataion by design
 - Aim for fast storage devices (NVMe)
 
+Modular design
+- Design each component to be pluggable so that different implementation choice can be evaluated and compared
+
 Verified features
 - Take advantage of the rapid advacement of verification techniques to implement provable features (crash consitency, liveness, etc) 
+
+
 
 Minimize human-labor
 - Try program systheis technique as much as possible
