@@ -21,5 +21,7 @@ Verified features
 # Reference
 
 [1] Using lightweight formal methods to validate a key-value storage node in Amazon S3
+
 [2] https://github.com/facebookexperimental/MIRAI
+
 [3] https://github.com/diem/diem/blob/ed8731c12a318ce81ec241308bc9b4d7ab2a0241/language/tools/mirai-dataflow-analysis/README.md
