@@ -54,20 +54,21 @@ impl<'a> MemTable<'a> {
         self.map.insert(build_memtable_key(key, mt, msn), value);
     }
 
-    pub fn get(&self, _key: &QueryKey) -> (Option<Vec<u8>>, bool) {
+    pub fn get(&self, key: &QueryKey) -> (Option<Vec<u8>>, bool) {
         //let mut iter = self.map.iter();
-        //let range = self.map.range(key..);
-        //let entry = range.next();
+        let mt_key = key.memtable_key();
+        let mut range = self.map.range::<MemtableKey,_>(mt_key..);
+        let entry = range.next();
         //iter.seek(key.memtable_key());
 
         // FIXME: this is not correct
-        //if let Some((foundk, foundv)) = entry {
-        //    if key.client_key() == &foundv[..] {
-        //        return (Some(foundk[..].to_vec()), false);
-        //    } else {
-        //        return (None, true);
-        //    }
-        //}
+        if let Some((foundk, foundv)) = entry {
+            if key.client_key() == &foundv[..] {
+                return (Some(foundk[..].to_vec()), false);
+            } else {
+                return (None, true);
+            }
+        }
         (None, false)
     }
 
