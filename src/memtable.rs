@@ -1,13 +1,13 @@
 // Copyright (c) 2021 The CobbleDB Authors. All rights reserved.
 
-use std::collections::btree_map::Iter;
-use crate::key_types::build_memtable_key;
-use crate::key_types::MsgType;
 use crate::defines::MSN;
+use crate::key_types::build_memtable_key;
 use crate::key_types::MemtableKey;
+use crate::key_types::MsgType;
+use std::collections::btree_map::Iter;
 use std::collections::BTreeMap;
 //use std::ops::Bound::Included;
-use crate::key_types::{QueryKey, ClientKey};
+use crate::key_types::{ClientKey, QueryKey};
 
 /* There are several ordered in-memory data structure
  * can be considered to implement the memtable.
@@ -21,7 +21,6 @@ use crate::key_types::{QueryKey, ClientKey};
  * FIXME: make these data structures as plug-ins
  */
 
-
 /* Semantic of the Memtable:
  * (1) TLA+ specification
  * (2) MIRAI invariant.
@@ -29,7 +28,7 @@ use crate::key_types::{QueryKey, ClientKey};
  */
 
 pub struct MemTable<'a> {
-    map: BTreeMap<MemtableKey<'a>, &'a[u8]>,
+    map: BTreeMap<MemtableKey, &'a [u8]>,
 }
 
 impl<'a> MemTable<'a> {
@@ -37,11 +36,11 @@ impl<'a> MemTable<'a> {
         MemTable {
             map: BTreeMap::new(),
         }
-    }  
+    }
 
     pub fn len(&self) -> usize {
         self.map.len()
-    }   
+    }
 
     pub fn mem_foot_print(&self) -> usize {
         /*
@@ -52,7 +51,7 @@ impl<'a> MemTable<'a> {
     }
 
     pub fn put(&mut self, msn: MSN, mt: MsgType, key: ClientKey<'a>, value: &'a [u8]) {
-        self.map.insert(&build_memtable_key(key, mt, msn), value);
+        self.map.insert(build_memtable_key(key, mt, msn), value);
     }
 
     pub fn get(&self, _key: &QueryKey) -> (Option<Vec<u8>>, bool) {
@@ -72,7 +71,7 @@ impl<'a> MemTable<'a> {
         (None, false)
     }
 
-    pub fn iter(&self) -> Iter<MemtableKey, &'a[u8]> {
+    pub fn iter(&self) -> Iter<MemtableKey, &'a [u8]> {
         self.map.iter()
     }
 }
